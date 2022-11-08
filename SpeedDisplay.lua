@@ -83,18 +83,13 @@ function PlaceableSpeedDisplay:onLoad(savegame)
 				local scaleY = self.xmlFile:getValue(displayKey .. "#scaleY", 1)
 				local mask = self.xmlFile:getValue(displayKey .. "#mask", "00")
 				local emissiveScale = self.xmlFile:getValue(displayKey .. "#emissiveScale", 0.2)
-				local colorFine = self.xmlFile:getValue(displayKey .. "#color", {
+				local colorFine = self.xmlFile:getValue(displayKey .. "#colorFine", {
 					0,
 					1,
 					0,
 					1
 				}, true)
-                local colorTooFast = self.xmlFile:getValue(displayKey .. "#color", {
-					1,
-					0,
-					0,
-					1
-				}, true)
+                local colorTooFast = self.xmlFile:getValue(displayKey .. "#colorTooFast", colorFine, true)
 				local hiddenColor = self.xmlFile:getValue(displayKey .. "#hiddenColor", nil, true)
 				display.displayNode = displayNode
 				display.formatStr, display.formatPrecision = string.maskToFormat(mask)
