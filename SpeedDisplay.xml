@@ -56,7 +56,7 @@
         </updateAreas>
     </ai>
 
-    <speedDisplay triggerNode="speedCheckTrigger" triggerMarkers="triggerMarkersNode"><!-- optional: flashLightNode for flash, showBlinkingWarning has to be true and a text has to be set to show a blinking warning on screen-->
+    <speedDisplay triggerNode="speedCheckTrigger" triggerMarkers="triggerMarkersNode">
         <display node="displayNode" font="DIGIT" mask="00" alignment="RIGHT" size="0.13" emissiveScale="1" colorFine="0 1 0 1" colorTooFase="0.6 0 0 1" hiddenColor="0.05 0.05 0.05 1"/>
     </speedDisplay>
 
