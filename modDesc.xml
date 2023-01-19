@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="72">
+    <author>tn4799, RickBlackLabele</author>
+    <version>1.0.0.0</version>
+    <title>
+        <en>Speed Display</en>
+        <de>Geschwindigkeitsanzeige</de>
+    </title>
+    <description>
+        <en>
+<![CDATA[
+]]></en>
+        <de>
+<![CDATA[
+]]></de>
+    </description>
+
+  <iconFilename>icon.dds</iconFilename>
+
+    <multiplayer supported="true"/>
+
+  <extraSourceFiles>
+    <!--sourceFile filename="SC_PayFineEvent.lua"/-->
+  </extraSourceFiles>
+
+  <placeableSpecializations>
+		<specialization name="placeableSpeedDisplay" className="PlaceableSpeedDisplay" filename="SpeedDisplay.lua"/>
+	</placeableSpecializations>
+
+  <placeableTypes>
+    <type name="speedDisplay" parent="simplePlaceable" filename="$dataS/scripts/placeables/Placeable.lua">
+      <specialization name="placeableSpeedDisplay" />
+    </type>
+  </placeableTypes>
+
+  <storeItems>
+    <storeItem xmlFilename="speedDisplay.xml"/>
+  </storeItems>
+
+    <l10n>
+    <text name="storeItem_speedDisplay">
+      <en>Speed Display/</en>
+      <de>Geschwindigkeitsanzeige</de>
+    </text>
+    <text name="function_speedDisplay">
+      <en>If you drive past the speed display, the speed display will show you the speed your driving at the moment.</en>
+      <de>Wenn man an der Geschwindigkeitsanzeige vorbei fährt, zeigt diese die aktuelle Geschwindigkeit an mit der man unterwegs ist.</de>
+    </text>
+  </l10n>
+</modDesc>
