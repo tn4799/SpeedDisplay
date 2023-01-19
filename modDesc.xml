@@ -20,7 +20,7 @@
     <multiplayer supported="true"/>
 
   <extraSourceFiles>
-    <!--sourceFile filename="SC_PayFineEvent.lua"/-->
+    	<!--sourceFile filename="SC_PayFineEvent.lua"/-->
   </extraSourceFiles>
 
   <placeableSpecializations>
