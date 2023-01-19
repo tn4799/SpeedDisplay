@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<placeable type="speeddisplay" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
+    <storeData>
+        <name>$l10n_storeItem_speedDisplay</name>
+        <functions>
+            <function>$l10n_Function_speedDisplay</function>
+        </functions>
+        <image>speedDisplay_store.dds</image>
+        <price>150000</price>
+        <dailyUpkeep>1000</dailyUpkeep>
+        <lifetime>1000</lifetime>
+        <rotation>0</rotation>
+        <brand>NONE</brand>
+        <species>placeable</species>
+        <category>silos</category>
+        <brush>
+            <type>placeable</type>
+            <category>buildings</category>
+            <tab>tools</tab>
+        </brush>
+    </storeData>
+
+    <base>
+        <filename>SpeedDisplay.i3d</filename>
+    </base>
+
+    <placement useRandomYRotation="false" useManualYRotation="true" >
+        <testAreas>
+            <testArea startNode="testArea1Start" endNode="testArea1End" />
+        </testAreas>
+
+        <sounds>
+            <place template="medImp" />
+        </sounds>
+    </placement>
+
+    <clearAreas>
+        <clearArea startNode="clearArea1Start" widthNode="clearArea1Width" heightNode="clearArea1Height"/>
+    </clearAreas>
+
+    <leveling requireLeveling="true" maxSmoothDistance="10" maxSlope="75" maxEdgeAngle="30">
+        <levelAreas>
+            <levelArea startNode="levelArea1Start" widthNode="levelArea1Width" heightNode="levelArea1Height" groundType="gravel"/>
+        </levelAreas>
+    </leveling>
+
+    <indoorAreas/>
+
+    <tipOcclusionUpdateAreas>
+        <tipOcclusionUpdateArea startNode="tipOcclusionUpdateArea1Start" endNode="tipOcclusionUpdateArea1End" />
+    </tipOcclusionUpdateAreas>
+
+    <ai>
+        <updateAreas>
+            <updateArea startNode="tipOcclusionUpdateArea1Start" endNode="tipOcclusionUpdateArea1End" />
+        </updateAreas>
+    </ai>
+
+    <speedDisplay triggerNode="speedCheckTrigger" triggerMarkers="triggerMarkersNode"><!-- optional: flashLightNode for flash, showBlinkingWarning has to be true and a text has to be set to show a blinking warning on screen-->
+        <display node="displayNode" font="DIGIT" mask="00" alignment="RIGHT" size="0.13" emissiveScale="1" colorFine="0 1 0 1" colorTooFase="0.6 0 0 1" hiddenColor="0.05 0.05 0.05 1"/>
+    </speedDisplay>
+
+    <i3dMappings>
+		<i3dMapping id="speedCheckTrigger" node="0>3" />
+        <i3dMapping id="levelArea1Start" node="0>4|0" />
+        <i3dMapping id="levelArea1Width" node="0>4|0|0" />
+        <i3dMapping id="levelArea1Height" node="0>4|0|1" />
+        <i3dMapping id="clearArea1Start" node="0>5|0" />
+        <i3dMapping id="clearArea1Width" node="0>5|0|0" />
+        <i3dMapping id="clearArea1Height" node="0>5|0|1" />
+        <i3dMapping id="testArea1Start" node="0>6|0" />
+        <i3dMapping id="testArea1End" node="0>6|0|0" />
+		<i3dMapping id="flashLightNode" node="0>1" />
+        <i3dMapping id="tipOcclusionUpdateArea1Start" node="0>7|0" />
+        <i3dMapping id="tipOcclusionUpdateArea1End" node="0>7|0|0" />
+		<i3dMapping id="triggerMarkersNode" node="0>2" />
+    </i3dMappings>
+</placeable>
