@@ -21,7 +21,7 @@ end
 
 function PlaceableSpeedDisplay.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType("SpeedDisplay")
-    basePath = basePath .. ".speedDisplay"
+    basePath = basePath .. PlaceableSpeedDisplay.specName
 
     schema:register(XMLValueType.NODE_INDEX,    basePath .. "#triggerNode", "Trigger of speed display. When driving thogh the speed is measured.")
     schema:register(XMLValueType.NODE_INDEX,    basePath .. "#triggerMarkers", "Show trigger marker during placement to show where the trigger is. When placing hide trigger markers")
