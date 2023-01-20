@@ -24,7 +24,7 @@
   </extraSourceFiles>
 
   <placeableSpecializations>
-		<specialization name="placeableSpeedDisplay" className="PlaceableSpeedDisplay" filename="SpeedDisplay.lua"/>
+		<specialization name="placeableSpeedDisplay" className="PlaceableSpeedDisplay" filename="PlaceableSpeedDisplay.lua"/>
 	</placeableSpecializations>
 
   <placeableTypes>
