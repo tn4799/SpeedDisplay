@@ -1,5 +1,6 @@
 PlaceableSpeedDisplay = {
     modName = g_currentModName,
+    baseXMLPath = "speedDisplay",
     specName = "placeableSpeedDisplay",
     prerequisitesPresent = function (specializations)
         return true
@@ -21,22 +22,26 @@ end
 
 function PlaceableSpeedDisplay.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType("SpeedDisplay")
-    basePath = basePath .. PlaceableSpeedDisplay.specName
+    local baseXMLPath = basePath .. "." .. PlaceableSpeedDisplay.baseXMLPath
+    local baseSavegamePath = basePath .. "." .. PlaceableSpeedDisplay.specName
 
-    schema:register(XMLValueType.NODE_INDEX,    basePath .. "#triggerNode", "Trigger of speed display. When driving thogh the speed is measured.")
-    schema:register(XMLValueType.NODE_INDEX,    basePath .. "#triggerMarkers", "Show trigger marker during placement to show where the trigger is. When placing hide trigger markers")
-    schema:register(XMLValueType.INT,           basePath .. "#speedLimit", "The allowed speed limit of the vehicle. When Speed is higher than this the text will be in another color", 50)
-    schema:register(XMLValueType.NODE_INDEX,    basePath .. ".display(?)#node", "Display start node")
-	schema:register(XMLValueType.STRING,        basePath .. ".display(?)#font", "Display font name")
-	schema:register(XMLValueType.STRING,        basePath .. ".display(?)#alignment", "Display text alignment")
-	schema:register(XMLValueType.FLOAT,         basePath .. ".display(?)#size", "Display text size")
-	schema:register(XMLValueType.FLOAT,         basePath .. ".display(?)#scaleX", "Display text x scale")
-	schema:register(XMLValueType.FLOAT,         basePath .. ".display(?)#scaleY", "Display text y scale")
-	schema:register(XMLValueType.STRING,        basePath .. ".display(?)#mask", "Display text mask")
-	schema:register(XMLValueType.FLOAT,         basePath .. ".display(?)#emissiveScale", "Display emissive scale")
-	schema:register(XMLValueType.COLOR,         basePath .. ".display(?)#colorFine", "Display text color when driving below the speed limit")
-    schema:register(XMLValueType.COLOR,         basePath .. ".display(?)#colorTooFast", "Display text color when driving above the speed limit")
-	schema:register(XMLValueType.COLOR,         basePath .. ".display(?)#hiddenColor", "Display text hidden color")
+    schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. "#triggerNode", "Trigger of speed display. When driving thogh the speed is measured.")
+    schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. "#triggerMarkers", "Show trigger marker during placement to show where the trigger is. When placing hide trigger markers")
+    schema:register(XMLValueType.INT,           baseXMLPath .. "#speedLimit", "The allowed speed limit of the vehicle. When Speed is higher than this the text will be in another color", 50)
+    schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. ".display(?)#node", "Display start node")
+	schema:register(XMLValueType.STRING,        baseXMLPath .. ".display(?)#font", "Display font name")
+	schema:register(XMLValueType.STRING,        baseXMLPath .. ".display(?)#alignment", "Display text alignment")
+	schema:register(XMLValueType.FLOAT,         baseXMLPath .. ".display(?)#size", "Display text size")
+	schema:register(XMLValueType.FLOAT,         baseXMLPath .. ".display(?)#scaleX", "Display text x scale")
+	schema:register(XMLValueType.FLOAT,         baseXMLPath .. ".display(?)#scaleY", "Display text y scale")
+	schema:register(XMLValueType.STRING,        baseXMLPath .. ".display(?)#mask", "Display text mask")
+	schema:register(XMLValueType.FLOAT,         baseXMLPath .. ".display(?)#emissiveScale", "Display emissive scale")
+	schema:register(XMLValueType.COLOR,         baseXMLPath .. ".display(?)#colorFine", "Display text color when driving below the speed limit")
+    schema:register(XMLValueType.COLOR,         baseXMLPath .. ".display(?)#colorTooFast", "Display text color when driving above the speed limit")
+	schema:register(XMLValueType.COLOR,         baseXMLPath .. ".display(?)#hiddenColor", "Display text hidden color")
+
+    schema:register(XMLValueType.INT,           baseSavegamePath .. "#speedLimit", "The allowed speed limit of the vehicle. When Speed is higher than this the text will be in another color. Value in placeables.xml", 50)
+
 	schema:setXMLSpecializationType()
 end
 --load from xml file of the storeItem
