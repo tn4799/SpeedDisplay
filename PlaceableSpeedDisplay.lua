@@ -47,7 +47,7 @@ end
 --load from xml file of the storeItem
 function PlaceableSpeedDisplay:onLoad(savegame)
     local spec = self[PlaceableSpeedDisplay.specPath]
-    local key = "placeable.speedDisplay"
+    local key = "placeable." .. PlaceableSpeedDisplay.baseXMLPath
 
     spec.trigger = self.xmlFile:getValue(key .. "#triggerNode", nil, self.components, self.i3dMappings)
 
@@ -171,7 +171,7 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
     if onEnter then
         local vehicle = g_currentMission:getNodeObject(otherId)
 
-        if vehicle ~= nil and vehicle.spec_driveable ~= nil and vehicle.spec_enterable and vehicle.spec_motorized then
+        if vehicle ~= nil and vehicle.spec_driveable and vehicle.spec_enterable and vehicle.spec_motorized then
             spec.vehicle = vehicle
         end
     end
