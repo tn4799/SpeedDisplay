@@ -14,8 +14,8 @@ function PlaceableSpeedDisplay.registerFunctions(placeableType)
 end
 
 function PlaceableSpeedDisplay.registerEventListeners(placeableType)
-    SpecializationUtil.registerEventListener(placeableType, "onLoad", PlaceableSpeedDisplay.onLoad)
-    SpecializationUtil.registerEventListener(placeableType, "onDelete", PlaceableSpeedDisplay.onDelete)
+    SpecializationUtil.registerEventListener(placeableType, "onLoad", PlaceableSpeedDisplay)
+    SpecializationUtil.registerEventListener(placeableType, "onDelete", PlaceableSpeedDisplay)
     SpecializationUtil.registerEventListener(placeableType, "onFinalizePlacement", PlaceableSpeedDisplay)
 end
 
