@@ -23,7 +23,7 @@ end
 function PlaceableSpeedDisplay.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType("SpeedDisplay")
     local baseXMLPath = basePath .. "." .. PlaceableSpeedDisplay.baseXMLPath
-    local baseSavegamePath = basePath .. "." .. PlaceableSpeedDisplay.specName
+    local baseSavegamePath = basePath .. ".SpeedDisplay." .. PlaceableSpeedDisplay.specName
 
     schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. "#triggerNode", "Trigger of speed display. When driving thogh the speed is measured.")
     schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. "#triggerMarkers", "Show trigger marker during placement to show where the trigger is. When placing hide trigger markers")
@@ -115,14 +115,14 @@ end
 function PlaceableSpeedDisplay:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self[PlaceableSpeedDisplay.specPath]
 
-    xmlFile:setValue(key .. "#speedLimit", spec.speedLimit or 50)
+    xmlFile:setInt(key .. "#speedLimit", spec.speedLimit or 50)
 end
 
 -- load from placeable xml of savegame
 function PlaceableSpeedDisplay:loadFromXMLFile(xmlFile, key)
     local spec = self[PlaceableSpeedDisplay.specPath]
 
-    spec.speedLimit = xmlFile:getValue(key .. "#speedLimit", 50)
+    spec.speedLimit = xmlFile:getInt(key .. "#speedLimit", 50)
 end
 
 function PlaceableSpeedDisplay:onDelete()
@@ -171,12 +171,12 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
     if onEnter then
         local vehicle = g_currentMission:getNodeObject(otherId)
 
-        if vehicle ~= nil and vehicle.spec_driveable and vehicle.spec_enterable and vehicle.spec_motorized then
+        if vehicle ~= nil and vehicle.spec_drivable ~= nil then
             spec.vehicle = vehicle
         end
     end
 
-    if onEnter or onStay then
+    if (onEnter or onStay) and spec.vehicle ~= {} then
         local speed = MathUtil.round(spec.vehicle:getLastSpeed())
 
         self:setDisplayNumbers(speed)
