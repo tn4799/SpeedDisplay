@@ -57,7 +57,7 @@
     </ai>
 
     <speedDisplay triggerNode="speedCheckTrigger" triggerMarkers="triggerMarkersNode" speedLimit="50">
-        <display node="displayNode" font="DIGIT" mask="00" alignment="RIGHT" size="0.2" emissiveScale="1" colorFine="0 1 0 1" colorTooFase="0.6 0 0 1" hiddenColor="0.05 0.05 0.05 1"/>
+        <display node="displayNode" font="DIGIT" mask="00" alignment="RIGHT" size="0.2" emissiveScale="1" colorFine="0 1 0 1" colorTooFast="0.6 0 0 1" hiddenColor="0.05 0.05 0.05 1"/>
     </speedDisplay>
 
     <i3dMappings>
