@@ -103,6 +103,8 @@ function PlaceableSpeedDisplay:onLoad(savegame)
 				display.characterLineFine = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorFine, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
 				display.characterLineTooFast = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorTooFast, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
 
+                print("character line  fine:")
+                print_r(display.characterLineFine)
 				table.insert(spec.displays, display)
 			end
 		end
@@ -147,21 +149,26 @@ function PlaceableSpeedDisplay:setDisplayNumbers(speed)
     local spec = self[PlaceableSpeedDisplay.specPath]
 
     if speed == 0 then
+        print("reset speed display to 0")
         for _, display in pairs(spec.displays) do
             setVisibility(display.displayNode, false)
         end
     else
+        print("set speed display to " .. tostring(speed))
         for _, display in pairs(spec.displays) do
+            print("set visible true")
             setVisibility(display.displayNode, true)
 
             local int, floatPart = math.modf(speed)
             local value = string.format(display.formatStr, int, math.abs(math.floor(floatPart * 10^display.formatPrecision)))
 
-            local characterLine = display.characterLineFine
             if speed > spec.speedLimit then
-                characterLine = display.characterLineTooFast
+                display.fontMaterial:updateCharacterLine(display.characterLineTooFast, value)
+            else
+                print("character line: " .. tostring(display.characterLineFine))
+                print("value: " .. tostring(value))
+                display.fontMaterial:updateCharacterLine(display.characterLineFine, value)
             end
-		    display.fontMaterial:updateCharacterLine(characterLine, value)
         end
     end
 end
