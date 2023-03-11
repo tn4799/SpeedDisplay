@@ -69,7 +69,7 @@ function PlaceableSpeedDisplay:onLoad(savegame)
 
     spec.speedLimit = self.xmlFile:getValue(key .. "#speedLimit", 50)
 
-    spec.vehicle = {}
+    spec.vehicle = nil -- No need to create an empty table here just use nil
     spec.displays = {}
 
     --load displays
@@ -97,14 +97,38 @@ function PlaceableSpeedDisplay:onLoad(savegame)
 				}, true)
                 local colorTooFast = self.xmlFile:getValue(displayKey .. "#colorTooFast", colorFine, true)
 				local hiddenColor = self.xmlFile:getValue(displayKey .. "#hiddenColor", nil, true)
-				display.displayNode = displayNode
+
+				-- Using the same node will mean that the displays will flicker as changing visibility will affect both character lines.
+				-- Solution is to clone the displayLine node and update separately
+				-- NOTE: The parameters for 'clone' are 'objectId, groupUnderParent, callOnCreate, addPhysics' so by using 'groupUnderParent' the node is auto linked to the same location as displayNode
+				display.displayNodeFine = displayNode
+				display.displayNodeToFast = clone(displayNode, true, false, false)
+
+				-- display.displayNode = displayNode
+
 				display.formatStr, display.formatPrecision = string.maskToFormat(mask)
 				display.fontMaterial = fontMaterial
-				display.characterLineFine = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorFine, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
-				display.characterLineTooFast = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorTooFast, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
 
-                print("character line  fine:")
-                print_r(display.characterLineFine)
+				-- Apply the new node ids so each characterLine is separate
+				display.characterLineFine = fontMaterial:createCharacterLine(display.displayNodeFine, mask:len(), size, colorFine, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
+				display.characterLineTooFast = fontMaterial:createCharacterLine(display.displayNodeToFast, mask:len(), size, colorTooFast, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
+
+				-- display.characterLineFine = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorFine, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
+				-- display.characterLineTooFast = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorTooFast, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
+
+				-- The reason you may not be able to see the numbers is that by default the clip distance of each character is very low (15) because it is mainly designed for in-cab displays
+				-- So this is a little trick i use but only when the character size is big enough to worry ;-)
+				if size >= 0.1 then
+                    local charactersFine = display.characterLineFine.characters
+                    local charactersToFast = display.characterLineTooFast.characters
+
+					for i = 1, #charactersFine do
+                        -- 'charactersTooFast' is just a clone of 'charactersFine' so will have the same # characters as the mask does not change so only need one loop ;-)
+						--setClipDistance(charactersFine[i], 150)
+                        --setClipDistance(charactersToFast[i], 150)
+                    end
+                end
+
 				table.insert(spec.displays, display)
 			end
 		end
@@ -148,47 +172,83 @@ end
 function PlaceableSpeedDisplay:setDisplayNumbers(speed)
     local spec = self[PlaceableSpeedDisplay.specPath]
 
-    if speed == 0 then
-        print("reset speed display to 0")
+    if speed <= 0 then
         for _, display in pairs(spec.displays) do
-            setVisibility(display.displayNode, false)
+            -- setVisibility(display.displayNode, false)
+
+			setVisibility(display.displayNodeFine, false)
+            setVisibility(display.displayNodeToFast, false)
         end
     else
-        print("set speed display to " .. tostring(speed))
         for _, display in pairs(spec.displays) do
-            print("set visible true")
-            setVisibility(display.displayNode, true)
-
             local int, floatPart = math.modf(speed)
             local value = string.format(display.formatStr, int, math.abs(math.floor(floatPart * 10^display.formatPrecision)))
 
-            if speed > spec.speedLimit then
-                display.fontMaterial:updateCharacterLine(display.characterLineTooFast, value)
+			-- setVisibility(display.displayNode, true)
+
+			-- This will guarantee only one node is visible at a time
+			local isSpeeding = speed > spec.speedLimit
+
+			setVisibility(display.displayNodeFine, not isSpeeding)
+			setVisibility(display.displayNodeToFast, isSpeeding)
+
+			if isSpeeding then
+				display.fontMaterial:updateCharacterLine(display.characterLineTooFast, value)
             else
-                print("character line: " .. tostring(display.characterLineFine))
-                print("value: " .. tostring(value))
-                display.fontMaterial:updateCharacterLine(display.characterLineFine, value)
+				display.fontMaterial:updateCharacterLine(display.characterLineFine, value)
             end
         end
     end
 end
 
 function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId, onEnter, onLeave, onStay)
-    local spec = self[PlaceableSpeedDisplay.specPath]
-    if onEnter then
-        local vehicle = g_currentMission:getNodeObject(otherId)
+	if onEnter or onLeave then
+		local spec = self[PlaceableSpeedDisplay.specPath]
+		local vehicle = g_currentMission:getNodeObject(otherId)
 
-        if vehicle ~= nil and vehicle.spec_drivable ~= nil then
-            spec.vehicle = vehicle
-        end
-    end
+		-- Best to make sure its is a drivable vehicle  for enter and leave or anything leaving will clear the display.
+		-- Also if the collision of the trigger uses BIT 20 then players would be detected and they do not have function 'getLastSpeed' so would cause error
+		if vehicle ~= nil and vehicle.spec_drivable ~= nil then
+			if onEnter then
+				-- By using 'vehicle ~= spec.vehicle' also it will mean that the vehicle speed is only checked when it first enters the trigger, otherwise as each vehicle component (otherId) enters the speed will change.
+				if vehicle ~= spec.vehicle then
+					spec.vehicle = vehicle
 
-    if (onEnter or onStay) and spec.vehicle ~= {} then
-        local speed = MathUtil.round(spec.vehicle:getLastSpeed())
+					self:setDisplayNumbers(MathUtil.round(vehicle:getLastSpeed()))
+				end
+			-- Only clear the speed if it is the same vehicle leaving that triggered the speed to start with
+			elseif vehicle == spec.vehicle then
+				-- You should reset `spec.vehicle` to nil instead of using table constructors. when you use `{}` you are creating a new table each time and this is not a good practice in this situation.
+				-- Using this in onEnter 'if spec.vehicle ~= {} then' will also be false every time as you are creating a new table using the constructors each time ;-)
 
-        self:setDisplayNumbers(speed)
-    elseif onLeave then
-        spec.vehicle = {}
-        self:setDisplayNumbers(0)
-    end
+				spec.vehicle = nil -- Set to nil
+				-- spec.vehicle = {}
+
+				self:setDisplayNumbers(0)
+			end
+		end
+	end
+
+	-- if onEnter then
+        -- local vehicle = g_currentMission:getNodeObject(otherId)
+
+        -- if vehicle ~= nil and vehicle.spec_drivable ~= nil then
+            -- spec.vehicle = vehicle
+        -- end
+    -- end
+
+    -- if (onEnter or onStay) and spec.vehicle ~= {} then
+        -- local speed = MathUtil.round(spec.vehicle:getLastSpeed())
+
+        -- self:setDisplayNumbers(speed)
+    -- elseif onLeave then
+        -- spec.vehicle = {}
+        -- self:setDisplayNumbers(0)
+    -- end
 end
+
+
+
+
+
+

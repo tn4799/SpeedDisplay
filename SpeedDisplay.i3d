@@ -66,7 +66,7 @@
           </Shape>
         </TransformGroup>
         <TransformGroup name="logic" nodeId="24">
-          <TransformGroup name="displayNode" translation="0.0365496 1.57455 -0.151691" rotation="-1.36604e-05 -0 0" nodeId="25"/>
+          <TransformGroup name="displayNode" translation="0.037 1.6 -0.155" rotation="-1.6572e-05 90 -9.38219e-06" nodeId="25"/>
           <Shape shapeId="5" name="trigger" translation="0 1 2.5" static="true" trigger="true" collisionMask="2097152" nodeId="26" materialIds="7" nonRenderable="true" distanceBlending="false">
             <TransformGroup name="Marker" translation="0 -1 -2.5" nodeId="27">
               <Shape shapeId="6" name="markers" translation="0.113 0 -0.00961785" clipDistance="300" nodeId="28" materialIds="6">
