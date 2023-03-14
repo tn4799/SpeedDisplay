@@ -17,6 +17,7 @@ end
 function PlaceableSpeedDisplay.registerEventListeners(placeableType)
     SpecializationUtil.registerEventListener(placeableType, "onLoad", PlaceableSpeedDisplay)
     SpecializationUtil.registerEventListener(placeableType, "onDelete", PlaceableSpeedDisplay)
+    SpecializationUtil.registerEventListener(placeableType, "onUpdate", PlaceableSpeedDisplay)
     SpecializationUtil.registerEventListener(placeableType, "onFinalizePlacement", PlaceableSpeedDisplay)
 end
 
@@ -28,6 +29,7 @@ function PlaceableSpeedDisplay.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. "#triggerNode", "Trigger of speed display. When driving thogh the speed is measured.")
     schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. "#triggerMarkers", "Show trigger marker during placement to show where the trigger is. When placing hide trigger markers")
     schema:register(XMLValueType.INT,           baseXMLPath .. "#speedLimit", "The allowed speed limit of the vehicle. When Speed is higher than this the text will be in another color", 50)
+    schema:register(XMLValueType.INT,           baseXMLPath .. "#duration", "Defines how long the speed is shown", 1)
     schema:register(XMLValueType.NODE_INDEX,    baseXMLPath .. ".display(?)#node", "Display start node")
 	schema:register(XMLValueType.STRING,        baseXMLPath .. ".display(?)#font", "Display font name")
 	schema:register(XMLValueType.STRING,        baseXMLPath .. ".display(?)#alignment", "Display text alignment")
@@ -68,6 +70,9 @@ function PlaceableSpeedDisplay:onLoad(savegame)
     end
 
     spec.speedLimit = self.xmlFile:getValue(key .. "#speedLimit", 50)
+    spec.duration = self.xmlFile:getValue(key .. "#duration", 1)
+    spec.timer = 0
+    spec.timerActivated = false
 
     spec.vehicle = nil -- No need to create an empty table here just use nil
     spec.displays = {}
@@ -104,30 +109,12 @@ function PlaceableSpeedDisplay:onLoad(savegame)
 				display.displayNodeFine = displayNode
 				display.displayNodeToFast = clone(displayNode, true, false, false)
 
-				-- display.displayNode = displayNode
-
 				display.formatStr, display.formatPrecision = string.maskToFormat(mask)
 				display.fontMaterial = fontMaterial
 
 				-- Apply the new node ids so each characterLine is separate
 				display.characterLineFine = fontMaterial:createCharacterLine(display.displayNodeFine, mask:len(), size, colorFine, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
 				display.characterLineTooFast = fontMaterial:createCharacterLine(display.displayNodeToFast, mask:len(), size, colorTooFast, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
-
-				-- display.characterLineFine = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorFine, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
-				-- display.characterLineTooFast = fontMaterial:createCharacterLine(display.displayNode, mask:len(), size, colorTooFast, hiddenColor, emissiveScale, scaleX, scaleY, alignment)
-
-				-- The reason you may not be able to see the numbers is that by default the clip distance of each character is very low (15) because it is mainly designed for in-cab displays
-				-- So this is a little trick i use but only when the character size is big enough to worry ;-)
-				if size >= 0.1 then
-                    local charactersFine = display.characterLineFine.characters
-                    local charactersToFast = display.characterLineTooFast.characters
-
-					for i = 1, #charactersFine do
-                        -- 'charactersTooFast' is just a clone of 'charactersFine' so will have the same # characters as the mask does not change so only need one loop ;-)
-						--setClipDistance(charactersFine[i], 150)
-                        --setClipDistance(charactersToFast[i], 150)
-                    end
-                end
 
 				table.insert(spec.displays, display)
 			end
@@ -161,6 +148,18 @@ function PlaceableSpeedDisplay:onDelete()
     end
 end
 
+function PlaceableSpeedDisplay:onUpdate(dt)
+    local spec = self[PlaceableSpeedDisplay.specPath]
+    if spec.timerActivated then
+        spec.timer = spec.timer + dt
+
+        if spec.timer > spec.duration then
+            self:setDisplayNumbers(0)
+            spec.timerActivated = false
+        end
+    end
+end
+
 function PlaceableSpeedDisplay:onFinalizePlacement()
     local spec = self[PlaceableSpeedDisplay.specPath]
 
@@ -174,17 +173,13 @@ function PlaceableSpeedDisplay:setDisplayNumbers(speed)
 
     if speed <= 0 then
         for _, display in pairs(spec.displays) do
-            -- setVisibility(display.displayNode, false)
-
-			setVisibility(display.displayNodeFine, false)
+            setVisibility(display.displayNodeFine, false)
             setVisibility(display.displayNodeToFast, false)
         end
     else
         for _, display in pairs(spec.displays) do
             local int, floatPart = math.modf(speed)
             local value = string.format(display.formatStr, int, math.abs(math.floor(floatPart * 10^display.formatPrecision)))
-
-			-- setVisibility(display.displayNode, true)
 
 			-- This will guarantee only one node is visible at a time
 			local isSpeeding = speed > spec.speedLimit
@@ -220,31 +215,13 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
 			elseif vehicle == spec.vehicle then
 				-- You should reset `spec.vehicle` to nil instead of using table constructors. when you use `{}` you are creating a new table each time and this is not a good practice in this situation.
 				-- Using this in onEnter 'if spec.vehicle ~= {} then' will also be false every time as you are creating a new table using the constructors each time ;-)
-
 				spec.vehicle = nil -- Set to nil
-				-- spec.vehicle = {}
+                spec.timerActivated = true
 
 				self:setDisplayNumbers(0)
 			end
 		end
 	end
-
-	-- if onEnter then
-        -- local vehicle = g_currentMission:getNodeObject(otherId)
-
-        -- if vehicle ~= nil and vehicle.spec_drivable ~= nil then
-            -- spec.vehicle = vehicle
-        -- end
-    -- end
-
-    -- if (onEnter or onStay) and spec.vehicle ~= {} then
-        -- local speed = MathUtil.round(spec.vehicle:getLastSpeed())
-
-        -- self:setDisplayNumbers(speed)
-    -- elseif onLeave then
-        -- spec.vehicle = {}
-        -- self:setDisplayNumbers(0)
-    -- end
 end
 
 
