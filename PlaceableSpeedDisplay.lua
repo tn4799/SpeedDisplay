@@ -156,6 +156,7 @@ function PlaceableSpeedDisplay:onUpdate(dt)
         if spec.timer > spec.duration then
             self:setDisplayNumbers(0)
             spec.timerActivated = false
+            spec.timer = 0
         end
     end
 end
@@ -207,6 +208,8 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
 			if onEnter then
 				-- By using 'vehicle ~= spec.vehicle' also it will mean that the vehicle speed is only checked when it first enters the trigger, otherwise as each vehicle component (otherId) enters the speed will change.
 				if vehicle ~= spec.vehicle then
+                    spec.timerActivated = false
+                    spec.timer = 0
 					spec.vehicle = vehicle
 
 					self:setDisplayNumbers(MathUtil.round(vehicle:getLastSpeed()))
@@ -223,9 +226,3 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
 		end
 	end
 end
-
-
-
-
-
-
