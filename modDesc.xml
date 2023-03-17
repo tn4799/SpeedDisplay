@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="72">
+<modDesc descVersion="73">
     <author>tn4799, RickBlackLabele</author>
     <version>1.0.0.0</version>
     <title>
@@ -8,20 +8,28 @@
     </title>
     <description>
         <en>
-<![CDATA[
+<![CDATA[Speed Display
+
+Price: 20000 $
+Daily Upkeep: 100 $/Tag
+
+A Speed Display shows the current speed of a vehicle when driving by.
+For the Display a speed limit can be configured. When someone drives to fast the speed is shown in red, otherwise in green.
 ]]></en>
         <de>
-<![CDATA[
+<![CDATA[Geschwindigkeitsanzeigetafel
+
+Preis: 20000 €
+Unterhaltskosten: 100 €/Tag
+
+Eine Geschwindigkeitsanzeigetafel zeigt die aktuelle Geschwindigkeit des Fahrzeugs beim Vorbeifahren an.
+Es ist ein Geschwindigkeitslimit einstellbar. Wenn dieses überschritten wird, dann zeigt die Geschwindigkeitsanzeigetafel in Rot an, ansonsten in Grün.
 ]]></de>
     </description>
 
   <iconFilename>icon_SpeedDisplay.dds</iconFilename>
 
-    <multiplayer supported="true"/>
-
-  <extraSourceFiles>
-    	<!--sourceFile filename="SC_PayFineEvent.lua"/-->
-  </extraSourceFiles>
+  <multiplayer supported="true"/>
 
   <placeableSpecializations>
 		<specialization name="placeableSpeedDisplay" className="PlaceableSpeedDisplay" filename="PlaceableSpeedDisplay.lua"/>
