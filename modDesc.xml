@@ -31,6 +31,10 @@ Es ist ein Geschwindigkeitslimit einstellbar. Wenn dieses überschritten wird, d
 
   <multiplayer supported="true"/>
 
+  <extraSourceFiles>
+    <sourceFile filename="placeOnNonbuyableFarmland.lua"/>
+  </extraSourceFiles>
+
   <placeableSpecializations>
 		<specialization name="placeableSpeedDisplay" className="PlaceableSpeedDisplay" filename="PlaceableSpeedDisplay.lua"/>
 	</placeableSpecializations>
