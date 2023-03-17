@@ -54,7 +54,7 @@ Die Geschwindigekeitsanzeigetafel kann auf nicht kaufbarem Land platziert werden
     <l10n>
     <text name="storeItem_speedDisplay">
       <en>Speed Display/</en>
-      <de>Geschwindigkeitsanzeige</de>
+      <de>Geschwindigkeitsanzeigetafel</de>
     </text>
     <text name="function_speedDisplay">
       <en>If you drive past the speed display, the speed display will show you the speed your driving at the moment.</en>
