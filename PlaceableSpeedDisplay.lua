@@ -217,7 +217,7 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
                     spec.timer = 0
 					spec.vehicle = vehicle
 
-					self:setDisplayNumbers(MathUtil.round(vehicle:getLastSpeed()))
+					self:setDisplayNumbers(math.min(MathUtil.round(vehicle:getLastSpeed()), 99))
 				end
 			-- Only clear the speed if it is the same vehicle leaving that triggered the speed to start with
 			elseif onLeave or vehicle == spec.vehicle then
