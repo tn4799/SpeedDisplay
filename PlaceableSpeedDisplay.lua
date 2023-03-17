@@ -17,6 +17,7 @@ end
 function PlaceableSpeedDisplay.registerEventListeners(placeableType)
     SpecializationUtil.registerEventListener(placeableType, "onLoad", PlaceableSpeedDisplay)
     SpecializationUtil.registerEventListener(placeableType, "onDelete", PlaceableSpeedDisplay)
+    SpecializationUtil.registerEventListener(placeableType, "onUpdate", PlaceableSpeedDisplay)
     SpecializationUtil.registerEventListener(placeableType, "onFinalizePlacement", PlaceableSpeedDisplay)
 end
 
@@ -40,6 +41,7 @@ function PlaceableSpeedDisplay.registerXMLPaths(schema, basePath)
     schema:register(XMLValueType.COLOR,         baseXMLPath .. ".display(?)#colorTooFast", "Display text color when driving above the speed limit")
 	schema:register(XMLValueType.COLOR,         baseXMLPath .. ".display(?)#hiddenColor", "Display text hidden color")
 
+    schema:register(XMLValueType.INT,           baseSavegamePath .. "#speedLimit", "The allowed speed limit of the vehicle. When Speed is higher than this the text will be in another color. Value in placeables.xml", 50)
     schema:register(XMLValueType.INT,           baseSavegamePath .. "#speedLimit", "The allowed speed limit of the vehicle. When Speed is higher than this the text will be in another color. Value in placeables.xml", 50)
 
 	schema:setXMLSpecializationType()
@@ -68,6 +70,9 @@ function PlaceableSpeedDisplay:onLoad(savegame)
     end
 
     spec.speedLimit = self.xmlFile:getValue(key .. "#speedLimit", 50)
+    spec.duration = self.xmlFile:getValue(key .. "#duration", 1)
+    spec.timer = 0
+    spec.timerActivated = false
 
     spec.vehicle = nil -- No need to create an empty table here just use nil
     spec.displays = {}
@@ -143,6 +148,19 @@ function PlaceableSpeedDisplay:onDelete()
     end
 end
 
+function PlaceableSpeedDisplay:onUpdate(dt)
+    local spec = self[PlaceableSpeedDisplay.specPath]
+    if spec.timerActivated then
+        spec.timer = spec.timer + dt
+
+        if spec.timer > spec.duration then
+            self:setDisplayNumbers(0)
+            spec.timerActivated = false
+            spec.timer = 0
+        end
+    end
+end
+
 function PlaceableSpeedDisplay:onFinalizePlacement()
     local spec = self[PlaceableSpeedDisplay.specPath]
 
@@ -190,6 +208,8 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
 			if onEnter then
 				-- By using 'vehicle ~= spec.vehicle' also it will mean that the vehicle speed is only checked when it first enters the trigger, otherwise as each vehicle component (otherId) enters the speed will change.
 				if vehicle ~= spec.vehicle then
+                    spec.timerActivated = false
+                    spec.timer = 0
 					spec.vehicle = vehicle
 
 					self:setDisplayNumbers(MathUtil.round(vehicle:getLastSpeed()))
@@ -200,6 +220,12 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
 				-- Using this in onEnter 'if spec.vehicle ~= {} then' will also be false every time as you are creating a new table using the constructors each time ;-)
 
 				spec.vehicle = nil -- Set to nil
+			-- Only clear the speed if it is the same vehicle leaving that triggered the speed to start with
+			elseif vehicle == spec.vehicle then
+				-- You should reset `spec.vehicle` to nil instead of using table constructors. when you use `{}` you are creating a new table each time and this is not a good practice in this situation.
+				-- Using this in onEnter 'if spec.vehicle ~= {} then' will also be false every time as you are creating a new table using the constructors each time ;-)
+				spec.vehicle = nil -- Set to nil
+                spec.timerActivated = true
 
 				self:setDisplayNumbers(0)
 			end
