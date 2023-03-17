@@ -58,15 +58,15 @@
   <Scene>
       <TransformGroup name="SpeedDisplay" nodeId="18">
         <TransformGroup name="vis" nodeId="19">
-          <Shape shapeId="1" name="Stange" rotation="-6.83019e-06 -0 0" clipDistance="300" nodeId="20" materialIds="4" castsShadows="true" receiveShadows="true">
-            <Shape shapeId="2" name="Schild" translation="0.022686 1.70015 -7.43158e-08" rotation="-6.83019e-06 -0 0" clipDistance="300" nodeId="21" materialIds="4" castsShadows="true" receiveShadows="true">
-              <Shape shapeId="3" name="Glas" translation="-0.0062789 -0.000873208 -0.00202813" rotation="-6.83019e-06 -0 0" clipDistance="300" nodeId="22" materialIds="5" castsShadows="true" receiveShadows="true"/>
-              <Shape shapeId="4" name="Halter" rotation="-6.83019e-06 -0 0" clipDistance="300" nodeId="23" materialIds="4" castsShadows="true" receiveShadows="true"/>
+          <Shape shapeId="1" name="Stange" clipDistance="300" nodeId="20" materialIds="4" castsShadows="true" receiveShadows="true">
+            <Shape shapeId="2" name="Schild" translation="0.022686 1.70015 -7.43158e-08" clipDistance="300" nodeId="21" materialIds="4" castsShadows="true" receiveShadows="true">
+              <Shape shapeId="3" name="Glas" translation="-0.0062789 -0.000873208 -0.00202813" clipDistance="300" nodeId="22" materialIds="5" castsShadows="true" receiveShadows="true"/>
+              <Shape shapeId="4" name="Halter" clipDistance="300" nodeId="23" materialIds="4" castsShadows="true" receiveShadows="true"/>
             </Shape>
           </Shape>
         </TransformGroup>
-        <TransformGroup name="logic" nodeId="24">
-          <TransformGroup name="displayNode" translation="0.037 1.6 -0.155" rotation="-1.6572e-05 90 -9.38219e-06" nodeId="25"/>
+        <TransformGroup name="logic" visibility="false" nodeId="24">
+          <TransformGroup name="displayNode" translation="0.037 1.6 -0.155" nodeId="25"/>
           <Shape shapeId="5" name="trigger" translation="0.75 1 2.5" static="true" trigger="true" collisionMask="2097152" nodeId="26" materialIds="7" nonRenderable="true" distanceBlending="false">
             <TransformGroup name="Marker" translation="0 -1 -2.5" nodeId="27">
               <Shape shapeId="6" name="markers" translation="0.862 0 0" clipDistance="300" nodeId="28" materialIds="6">
