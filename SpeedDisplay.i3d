@@ -43,8 +43,6 @@
       <Normalmap fileId="11"/>
       <Glossmap fileId="12"/>
     </Material>
-    <Material name="UnnamedMaterial" materialId="50" diffuseColor="1 1 1 1">
-    </Material>
     <Material name="UnnamedMaterial" materialId="7" diffuseColor="1 1 1 1">
     </Material>
   </Materials>
@@ -58,49 +56,49 @@
   </Dynamics>
 
   <Scene>
-      <TransformGroup name="SpeedDisplay" nodeId="18">
-        <TransformGroup name="vis" nodeId="19">
-          <Shape shapeId="1" name="Stange" clipDistance="300" nodeId="20" materialIds="4" castsShadows="true" receiveShadows="true">
-            <Shape shapeId="2" name="Schild" translation="0.022686 1.70015 -7.43158e-08" clipDistance="300" nodeId="21" materialIds="4" castsShadows="true" receiveShadows="true">
-              <Shape shapeId="3" name="Glas" translation="-0.0062789 -0.000873208 -0.00202813" clipDistance="300" nodeId="22" materialIds="5" castsShadows="true" receiveShadows="true"/>
-              <Shape shapeId="4" name="Halter" clipDistance="300" nodeId="23" materialIds="4" castsShadows="true" receiveShadows="true"/>
+      <TransformGroup name="SpeedDisplay" nodeId="19">
+        <TransformGroup name="vis" nodeId="20">
+          <Shape shapeId="1" name="Stange" clipDistance="300" nodeId="21" materialIds="4" castsShadows="true" receiveShadows="true">
+            <Shape shapeId="2" name="Schild" translation="0.022686 1.70015 -7.43158e-08" clipDistance="300" nodeId="22" materialIds="4" castsShadows="true" receiveShadows="true">
+              <Shape shapeId="3" name="Glas" translation="-0.0062789 -0.000873208 -0.00202813" clipDistance="300" nodeId="23" materialIds="5" castsShadows="true" receiveShadows="true"/>
+              <Shape shapeId="4" name="Halter" clipDistance="300" nodeId="24" materialIds="4" castsShadows="true" receiveShadows="true"/>
             </Shape>
           </Shape>
         </TransformGroup>
-        <TransformGroup name="logic" nodeId="24">
-          <TransformGroup name="displayNode" translation="0.149648 1.59005 0.045" nodeId="25"/>
-          <Shape shapeId="5" name="trigger" translation="0 0 0.75" scale="1 1 1.25" static="true" trigger="true" collisionMask="2097152" nodeId="26" materialIds="7" nonRenderable="true" distanceBlending="false">
-            <TransformGroup name="triggerMarkers" translation="0 0 -1.1704" scale="1 1 0.8" nodeId="27">
+        <TransformGroup name="logic" nodeId="25">
+          <TransformGroup name="displayNode" translation="0.149648 1.59005 0.045" nodeId="26"/>
+          <Shape shapeId="5" name="trigger" translation="0 0 0.75" scale="1 1 1.25" static="true" trigger="true" collisionMask="2097152" nodeId="27" materialIds="7" nonRenderable="true" distanceBlending="false">
+            <TransformGroup name="triggerMarkers" translation="0 0.3 -1.1704" scale="1 1 0.8" nodeId="28">
               <Shape shapeId="6" name="marker1" translation="-2.46361 0 4.68075" clipDistance="300" nodeId="29" materialIds="6">
-                <Shape shapeId="7" name="marker4" translation="-0.00879645 0 8.91685e-05" clipDistance="300" nodeId="31" materialIds="6"/>
+                <Shape shapeId="7" name="marker4" translation="-0.00879645 0 8.91685e-05" clipDistance="300" nodeId="30" materialIds="6"/>
               </Shape>
-              <Shape shapeId="8" name="marker2" translation="-2.46361 0 7.30609" clipDistance="300" nodeId="28" materialIds="6">
-                <Shape shapeId="9" name="marker3" translation="-0.00879645 0 8.91685e-05" clipDistance="300" nodeId="30" materialIds="6"/>
+              <Shape shapeId="8" name="marker2" translation="-2.46361 0 7.30609" clipDistance="300" nodeId="31" materialIds="6">
+                <Shape shapeId="9" name="marker3" translation="-0.00879645 0 8.91685e-05" clipDistance="300" nodeId="32" materialIds="6"/>
               </Shape>
             </TransformGroup>
           </Shape>
-          <Shape shapeId="10" name="infoTrigger" translation="0 1.5 0" static="true" trigger="true" nodeId="49" materialIds="50" nonRenderable="true" distanceBlending="false"/>
+          <Shape shapeId="10" name="infoTrigger" translation="0 1.5 0" static="true" trigger="true" nodeId="33" materialIds="7" nonRenderable="true" distanceBlending="false"/>
         </TransformGroup>
-        <TransformGroup name="levelAreas" nodeId="32">
-          <TransformGroup name="levelArea1Start" translation="-0.225 0 -0.225" nodeId="33">
-            <TransformGroup name="levelArea1Width" translation="0 0 0.45" nodeId="34"/>
-            <TransformGroup name="levelArea1Height" translation="0.45 0 0.45" nodeId="35"/>
+        <TransformGroup name="levelAreas" nodeId="34">
+          <TransformGroup name="levelArea1Start" translation="-0.225 0 -0.225" nodeId="35">
+            <TransformGroup name="levelArea1Width" translation="0 0 0.45" nodeId="36"/>
+            <TransformGroup name="levelArea1Height" translation="0.45 0 0.45" nodeId="37"/>
           </TransformGroup>
         </TransformGroup>
-        <TransformGroup name="clearAreas" nodeId="36">
-          <TransformGroup name="clearArea1Start" translation="-0.225 0 -0.225" nodeId="37">
-            <TransformGroup name="clearArea1Width" translation="0.45 0 5.68434e-16" nodeId="38"/>
-            <TransformGroup name="clearArea1Height" translation="0.45 0 0.45" nodeId="39"/>
+        <TransformGroup name="clearAreas" nodeId="38">
+          <TransformGroup name="clearArea1Start" translation="-0.225 0 -0.225" nodeId="39">
+            <TransformGroup name="clearArea1Width" translation="0.45 0 5.68434e-16" nodeId="40"/>
+            <TransformGroup name="clearArea1Height" translation="0.45 0 0.45" nodeId="41"/>
           </TransformGroup>
         </TransformGroup>
-        <TransformGroup name="testAreas" nodeId="40">
-          <TransformGroup name="testArea1Start" translation="-0.225 0 -0.225" nodeId="41">
-            <TransformGroup name="testArea1End" translation="0.45 0 0.45" nodeId="42"/>
+        <TransformGroup name="testAreas" nodeId="42">
+          <TransformGroup name="testArea1Start" translation="-0.225 0 -0.225" nodeId="43">
+            <TransformGroup name="testArea1End" translation="0.45 0 0.45" nodeId="44"/>
           </TransformGroup>
         </TransformGroup>
-        <TransformGroup name="tipOcclusionUpdateAreas" nodeId="43">
-          <TransformGroup name="tipOcclusionUpdateArea1Start" translation="-0.225 0 -0.225" nodeId="44">
-            <TransformGroup name="tipOcclusionUpdateArea1End" translation="0.45 0 0.45" nodeId="45"/>
+        <TransformGroup name="tipOcclusionUpdateAreas" nodeId="45">
+          <TransformGroup name="tipOcclusionUpdateArea1Start" translation="-0.225 0 -0.225" nodeId="46">
+            <TransformGroup name="tipOcclusionUpdateArea1End" translation="0.45 0 0.45" nodeId="47"/>
           </TransformGroup>
         </TransformGroup>
       </TransformGroup>
