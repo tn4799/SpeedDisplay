@@ -34,7 +34,7 @@
   </placeableTypes>
 
   <storeItems>
-    <storeItem xmlFilename="speedDisplay.xml"/>
+    <storeItem xmlFilename="SpeedDisplay.xml"/>
   </storeItems>
 
     <l10n>
