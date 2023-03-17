@@ -43,6 +43,8 @@
       <Normalmap fileId="11"/>
       <Glossmap fileId="12"/>
     </Material>
+    <Material name="UnnamedMaterial" materialId="50" diffuseColor="1 1 1 1">
+    </Material>
     <Material name="UnnamedMaterial" materialId="7" diffuseColor="1 1 1 1">
     </Material>
   </Materials>
@@ -65,18 +67,19 @@
             </Shape>
           </Shape>
         </TransformGroup>
-        <TransformGroup name="logic" visibility="false" nodeId="24">
-          <TransformGroup name="displayNode" translation="0.037 1.6 -0.155" nodeId="25"/>
-          <Shape shapeId="5" name="trigger" translation="0.75 1 2.5" static="true" trigger="true" collisionMask="2097152" nodeId="26" materialIds="7" nonRenderable="true" distanceBlending="false">
-            <TransformGroup name="Marker" translation="0 -1 -2.5" nodeId="27">
-              <Shape shapeId="6" name="markers" translation="0.862 0 0" clipDistance="300" nodeId="28" materialIds="6">
-                <Shape shapeId="7" name="markers.002" translation="-1.727 0 0" clipDistance="300" nodeId="29" materialIds="6"/>
+        <TransformGroup name="logic" nodeId="24">
+          <TransformGroup name="displayNode" translation="0.149648 1.59005 0.045" nodeId="25"/>
+          <Shape shapeId="5" name="trigger" translation="0 0 0.75" scale="1 1 1.25" static="true" trigger="true" collisionMask="2097152" nodeId="26" materialIds="7" nonRenderable="true" distanceBlending="false">
+            <TransformGroup name="triggerMarkers" translation="0 0 -1.1704" scale="1 1 0.8" nodeId="27">
+              <Shape shapeId="6" name="marker1" translation="-2.46361 0 4.68075" clipDistance="300" nodeId="29" materialIds="6">
+                <Shape shapeId="7" name="marker4" translation="-0.00879645 0 8.91685e-05" clipDistance="300" nodeId="31" materialIds="6"/>
               </Shape>
-              <Shape shapeId="8" name="markers" translation="0.862 0 0" clipDistance="300" nodeId="30" materialIds="6">
-                <Shape shapeId="9" name="markers.003" translation="-1.95248 0 0" clipDistance="300" nodeId="31" materialIds="6"/>
+              <Shape shapeId="8" name="marker2" translation="-2.46361 0 7.30609" clipDistance="300" nodeId="28" materialIds="6">
+                <Shape shapeId="9" name="marker3" translation="-0.00879645 0 8.91685e-05" clipDistance="300" nodeId="30" materialIds="6"/>
               </Shape>
             </TransformGroup>
           </Shape>
+          <Shape shapeId="10" name="infoTrigger" translation="0 1.5 0" static="true" trigger="true" nodeId="49" materialIds="50" nonRenderable="true" distanceBlending="false"/>
         </TransformGroup>
         <TransformGroup name="levelAreas" nodeId="32">
           <TransformGroup name="levelArea1Start" translation="-0.225 0 -0.225" nodeId="33">

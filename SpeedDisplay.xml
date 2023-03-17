@@ -50,6 +50,8 @@
         <tipOcclusionUpdateArea startNode="tipOcclusionUpdateArea1Start" endNode="tipOcclusionUpdateArea1End" />
     </tipOcclusionUpdateAreas>
 
+    <infoTrigger triggerNode="infoTrigger"/>
+
     <ai>
         <updateAreas>
             <updateArea startNode="tipOcclusionUpdateArea1Start" endNode="tipOcclusionUpdateArea1End" />
@@ -61,9 +63,10 @@
     </speedDisplay>
 
     <i3dMappings>
+        <i3dMapping id="displayNode"        node="0>1|0"/>
 		<i3dMapping id="speedCheckTrigger"  node="0>1|1" />
         <i3dMapping id="triggerMarkersNode" node="0>1|1|0" />
-        <i3dMapping id="displayNode"        node="0>1|0"/>
+        <i3dMapping id="infoTrigger"        node="0>1|2" />
         <i3dMapping id="levelArea1Start"    node="0>2|0" />
         <i3dMapping id="levelArea1Width"    node="0>2|0|0" />
         <i3dMapping id="levelArea1Height"   node="0>2|0|1" />
