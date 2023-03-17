@@ -3,16 +3,16 @@
     <storeData>
         <name>$l10n_storeItem_speedDisplay</name>
         <functions>
-            <function>$l10n_Function_speedDisplay</function>
+            <function>$l10n_function_speedDisplay</function>
         </functions>
         <image>speedDisplay_store.dds</image>
-        <price>150000</price>
-        <dailyUpkeep>1000</dailyUpkeep>
+        <price>20000</price>
+        <dailyUpkeep>100</dailyUpkeep>
         <lifetime>1000</lifetime>
         <rotation>0</rotation>
         <brand>NONE</brand>
         <species>placeable</species>
-        <category>silos</category>
+        <category>placeableMisc</category>
         <brush>
             <type>placeable</type>
             <category>buildings</category>
