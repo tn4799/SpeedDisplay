@@ -70,7 +70,8 @@ function PlaceableSpeedDisplay:onLoad(savegame)
     end
 
     spec.speedLimit = self.xmlFile:getValue(key .. "#speedLimit", 50)
-    spec.duration = self.xmlFile:getValue(key .. "#duration", 1) * 100
+    spec.duration = self.xmlFile:getValue(key .. "#duration", 1)
+    spec.duration = spec.duration * 1000
     spec.timer = 0
     spec.timerActivated = false
 
