@@ -7,27 +7,27 @@
         <de>Geschwindigkeitsanzeige</de>
     </title>
     <description>
-        <en>
-<![CDATA[Speed Display
+<en><![CDATA[
+Speed Display
 
-Price: 20000 $
-Daily Upkeep: 100 $/Tag
+Price: $20,000
+Daily Upkeep: $100 /day
 
 A Speed Display shows the current speed of a vehicle when driving by. The shown speed caps at 99 mph.
 For the Display a speed limit can be configured. When someone drives to fast the speed is shown in red, otherwise in green.
 It can also be placed on non-buyable ground.
 ]]></en>
-        <de>
-<![CDATA[Geschwindigkeitsanzeigetafel
+<de><![CDATA[
+Geschwindigkeitsanzeigetafel
 
-Preis: 20000 €
+Preis: 20.000 €
 Unterhaltskosten: 100 €/Tag
 
 Eine Geschwindigkeitsanzeigetafel zeigt die aktuelle Geschwindigkeit des Fahrzeugs beim Vorbeifahren an. Die angezeigte Geschwindigkeit ist auf maximal 99 km/h beschränkt.
 Es ist ein Geschwindigkeitslimit einstellbar. Wenn dieses überschritten wird, dann zeigt die Geschwindigkeitsanzeigetafel in Rot an, ansonsten in Grün.
 Die Geschwindigekeitsanzeigetafel kann auf nicht kaufbarem Land platziert werden.
 ]]></de>
-    </description>
+</description>
 
   <iconFilename>icon_SpeedDisplay.dds</iconFilename>
 
