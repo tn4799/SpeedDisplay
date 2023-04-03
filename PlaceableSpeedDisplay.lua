@@ -74,6 +74,9 @@ function PlaceableSpeedDisplay:onLoad(savegame)
     spec.duration = spec.duration * 1000
     spec.timer = 0
     spec.timerActivated = false
+    spec.updateTimer = 0
+    spec.updateTimerActive = false
+    spec.updateDisplayAllowed = true
 
     spec.vehicle = nil -- No need to create an empty table here just use nil
     spec.displays = {}
@@ -156,10 +159,21 @@ function PlaceableSpeedDisplay:onUpdate(dt)
         spec.timer = spec.timer + dt
 
         if spec.timer > spec.duration then
-            self:setDisplayNumbers(0)
             spec.timerActivated = false
             spec.timer = 0
             self:setDisplayNumbers(0)
+        else
+            self:raiseActive()
+        end
+    end
+
+    if spec.updateTimerActive then
+        spec.updateTimer = spec.updateTimer + dt
+
+        if spec.updateTimer > 700 then
+            spec.updateTimer = 0
+            spec.updateTimerActive = false
+            spec.updateDisplayAllowed = true
         else
             self:raiseActive()
         end
@@ -177,26 +191,29 @@ end
 function PlaceableSpeedDisplay:setDisplayNumbers(speed)
     local spec = self[PlaceableSpeedDisplay.specPath]
 
-    if speed <= 0 then
-        for _, display in pairs(spec.displays) do
-            setVisibility(display.displayNodeFine, false)
-            setVisibility(display.displayNodeToFast, false)
-        end
-    else
-        for _, display in pairs(spec.displays) do
-            local int, floatPart = math.modf(speed)
-            local value = string.format(display.formatStr, int, math.abs(math.floor(floatPart * 10^display.formatPrecision)))
+    if spec.updateDisplayAllowed then
+        if speed <= 0 then
+            for _, display in pairs(spec.displays) do
+                setVisibility(display.displayNodeFine, false)
+                setVisibility(display.displayNodeToFast, false)
+            end
+        else
+            for _, display in pairs(spec.displays) do
+                local int, floatPart = math.modf(speed)
+                local value = string.format(display.formatStr, int, math.abs(math.floor(floatPart * 10^display.formatPrecision)))
 
-			-- This will guarantee only one node is visible at a time
-			local isSpeeding = speed > spec.speedLimit
+                -- This will guarantee only one node is visible at a time
+                local isSpeeding = speed > spec.speedLimit
 
-			setVisibility(display.displayNodeFine, not isSpeeding)
-			setVisibility(display.displayNodeToFast, isSpeeding)
+                setVisibility(display.displayNodeFine, not isSpeeding)
+                setVisibility(display.displayNodeToFast, isSpeeding)
 
-			if isSpeeding then
-				display.fontMaterial:updateCharacterLine(display.characterLineTooFast, value)
-            else
-				display.fontMaterial:updateCharacterLine(display.characterLineFine, value)
+                if isSpeeding then
+                    display.fontMaterial:updateCharacterLine(display.characterLineTooFast, value)
+                else
+                    display.fontMaterial:updateCharacterLine(display.characterLineFine, value)
+                end
+                spec.updateDisplayAllowed = false
             end
         end
     end
@@ -215,7 +232,10 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
 				if vehicle ~= spec.vehicle then
                     spec.timerActivated = false
                     spec.timer = 0
+                    spec.updateTimerActive = false
+                    spec.updateTimer = 0
 					spec.vehicle = vehicle
+                    spec.updateDisplayAllowed = true
 
 					self:setDisplayNumbers(math.min(MathUtil.round(vehicle:getLastSpeed()), 99))
 				end
@@ -226,9 +246,22 @@ function PlaceableSpeedDisplay:onSpeedDisplayTriggerCallback(triggerId, otherId,
 
 				spec.vehicle = nil -- Set to nil
                 spec.timerActivated = true
+                spec.updateDisplayAllowed = true
                 self:raiseActive()
 			    -- Only clear the speed if it is the same vehicle leaving that triggered the speed to start with
 			end
 		end
 	end
+
+    if onStay then
+        local vehicle = g_currentMission:getNodeObject(otherId)
+
+        if vehicle ~= nil and vehicle.spec_drivable ~= nil then
+            if vehicle == spec.vehicle then
+                -- Update speed on display after 1 second
+                spec.updateTimerActive = true
+                self:raiseActive()
+            end
+        end
+    end
 end
